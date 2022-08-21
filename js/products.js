@@ -1,9 +1,10 @@
 window.addEventListener("DOMContentLoaded", () => {
 	const productList = document.querySelector("#productList");	
-	const CATEGORY_AUTOS_ID = 101;
+	let categoryId = localStorage.getItem("catID");
+	if (categoryId === null) categoryId = "101";
 
 	// TODO: Rewrite getJSONData() as I don't find it well designed
-	getJSONData(PRODUCTS_URL + CATEGORY_AUTOS_ID + EXT_TYPE).then(({data, status}) => {
+	getJSONData(PRODUCTS_URL + categoryId + EXT_TYPE).then(({data, status}) => {
 		if (status === "ok") productList.innerHTML = buildProductListHTML(data)
 		else
 			productList.innerHTML =
@@ -25,9 +26,9 @@ function buildProductListHTML(category) {
 
 	for (const product of products) {
 		result +=
-			`<div class="row mb-3 shadow-sm rounded">
+			`<div class="row mb-3 mx-0 shadow-sm rounded bg-white">
 				<div class="container p-0 d-flex justify-content-between">
-					<div class="col-md-7 col-5 p-0 d-flex align-items-center">
+					<div class="col-md-3 col-xl-2 col-5 p-0 d-flex align-items-center">
 						<img class="img-fluid" src="${product.image}" alt="imagen de ${product.name}">
 					</div>
 					<div class="col mx-2 d-flex flex-column">
