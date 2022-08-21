@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	// redirect directly if values are saved:
 	if (	sessionStorage.getItem("login-data-loggedin") === "true" ||
 				localStorage.getItem("login-data-loggedin") === "true") 
-		window.location.assign("/index.html");
+		window.location.assign("index.html");
 
 	const loginForm = document.querySelector("#login-form");
 	const needsValidateFormGroup = document.querySelector("#login-form .form-group.needs-validation");
@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				localStorage.setItem("login-data-loggedin", true);
 			else
 				sessionStorage.setItem("login-data-loggedin", true);
-			window.location.assign("/index.html");
+			window.location.assign("index.html");
 		}
 		else e.stopPropagation();
 
