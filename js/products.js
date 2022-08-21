@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", () => {
 function buildProductListHTML(category) {
 	const products = category.products;
 	let result =
-		`<div class="pb-5 px-0 container-fluid text-left">
+		`<div class="pb-5 px-3 px-sm-0 container-fluid text-left">
 			<div class="display-1">${category.catName}</div>
 			<div class="lead">Se han encontrado <strong>${products.length}</strong> productos:</div>
 		</div>`;
@@ -36,7 +36,7 @@ function buildProductListHTML(category) {
 							<p>${product.description}</p>
 							<div class="container p-0 mt-auto d-flex flex-row justify-content-between">
 								<h3>${product.currency} ${product.cost}</h3>
-								<p class="text-end text-secondary">${product.soldCount} vendidos.</p>	
+								<p class="text-end text-secondary small">${product.soldCount} vendidos.</p>	
 							</div>
 					</div>
 					<div class="col-sm-auto align-self-end">
