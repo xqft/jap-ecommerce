@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
-	if (sessionStorage.getItem("login-data-loggedin") !== "true")
+	if (	sessionStorage.getItem("login-data-loggedin") !== "true" &&
+				localStorage.getItem("login-data-loggedin") !== "true")
 		window.location.assign("/login.html");
 
 	document.getElementById("autos").addEventListener("click", function() {

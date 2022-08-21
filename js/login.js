@@ -1,6 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 	// redirect directly if values are saved:
-	if (localStorage.getItem("login-data-rememberme") === "on") 
+	if (	sessionStorage.getItem("login-data-loggedin") === "true" ||
+				localStorage.getItem("login-data-loggedin") === "true") 
 		window.location.assign("/index.html");
 
 	const loginForm = document.querySelector("#login-form");
@@ -16,14 +17,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
 		if (isFormValid(login)) {
 			// save data
-			for ([key, value] of login.entries()) {
-				localStorage.setItem("login-data-" + key, value);
-				console.log(key + value);
-			}
-			sessionStorage.setItem("login-data-loggedin", true);
+			for ([key, value] of login.entries()) 
+				if(key !== "rememberme") 
+					localStorage.setItem("login-data-" + key, value);
+
+			if (login.get("rememberme") === "on")
+				localStorage.setItem("login-data-loggedin", true);
+			else
+				sessionStorage.setItem("login-data-loggedin", true);
 			window.location.assign("/index.html");
 		}
 		else e.stopPropagation();
+
 		needsValidateFormGroup.classList.add("was-validated");
 	});
 });
