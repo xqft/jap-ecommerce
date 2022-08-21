@@ -15,14 +15,40 @@
     }
   </style>
 </head>
-
 <body>
-  <main class="mt-5">
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
-      </div>
-    </div>
+  <main class="py-5 d-flex justify-content-center align-items-center bg-warning">
+		<div class="card d-flex flex-column align-items-center shadow rounded bg-light" style="width: 24rem;">
+			<img src="img/login.png" alt="logo de e-mercado" class="card-img-top">
+			<div class="card-body">
+				<form id="login-form" novalidate>
+					<div class="form-group needs-validation">
+						<div class="mb-2">
+							<label class="small" for="login-form-email">Correo electrónico</label>
+							<input class="form-control" type="email" name="email" id="login-form-email" placeholder="Escribe aquí tu e-mail" required>
+							<div class="invalid-feedback">Por favor ingresa un e-mail válido.</div>
+						</div>
+						<div class="mb-2">
+							<label class="small" for="login-form-password">Contraseña</label>
+							<input class="form-control" type="password" name="password" id="login-form-password" placeholder="Escribe aquí tu contraseña" required>
+							<div class="invalid-feedback">Por favor ingresa una contraseña.</div>
+						</div>
+					</div>
+					<div class="mb-2 d-flex flex-row gap-5 justify-content-between">
+						<div class="form-check">
+							<input type="checkbox" name="rememberme" id="login-form-rememberme" class="form-check-input">
+							<label for="login-form-rememberme" class="form-check-label text-nowrap"><small>Recuérdame</small></label>
+						</div>
+						<div class="container p-0">
+							<!-- TODO: Forgot password redirect -->
+							<a href="#" class="small text-nowrap">Olvidé mi contraseña</a>
+						</div>
+					</div>
+					<div class="mb-2 d-grid">
+						<button type="submit" class="btn btn-outline-primary">Iniciar sesión</button>
+					</div>
+				</form>
+			</div>
+		</div>
   </main>
   <footer class="text-muted">
     <div class="container">
@@ -36,5 +62,4 @@
   </footer>
   <script src="js/login.js"></script>
 </body>
-
 </html>
