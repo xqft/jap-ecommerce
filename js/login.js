@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				localStorage.setItem("login-data-" + key, value);
 				console.log(key + value);
 			}
-			localStorage.setItem("login-data-loggedin", true);
+			sessionStorage.setItem("login-data-loggedin", true);
 			window.location.assign("/index.html");
 		}
 		else e.stopPropagation();
