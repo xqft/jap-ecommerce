@@ -27,7 +27,7 @@ function buildProductListHTML(category) {
 		result +=
 			`<div class="row mb-3 shadow-sm rounded">
 				<div class="container p-0 d-flex justify-content-between">
-					<div class="col-md-7 col-5 p-0">
+					<div class="col-md-7 col-5 p-0 d-flex align-items-center">
 						<img class="img-fluid" src="${product.image}" alt="imagen de ${product.name}">
 					</div>
 					<div class="col mx-2 d-flex flex-column">
