@@ -19,9 +19,24 @@ window.addEventListener("DOMContentLoaded", () => {
 function buildProductListHTML(category) {
 	const products = category.products;
 	let result =
-		`<div class="pb-5 px-3 px-sm-0 container-fluid text-left">
+		`<div class="container-fluid px-3 px-sm-0 text-left">
 			<div class="display-1">${category.catName}</div>
 			<div class="lead">Se han encontrado <strong>${products.length}</strong> productos:</div>
+		</div>
+		<div class="row py-3 justify-content-end">
+			<div class="col-sm-6 col-md-5 col-lg-4 col-8 p-0">
+				<form id="filterForm">
+					<div class="d-flex flex-row">
+						<div class="input-group">
+							<span class="input-group-text">$</span>
+							<input type="number" class="form-control" name="minPrice" min="0" placeholder="min" oninput="
+							this.value = this.value >= 0 ? this.value : null"> <!-- https://stackoverflow.com/questions/7372067/is-there-any-way-to-prevent-input-type-number-getting-negative-values -->
+							<input type="number" class="form-control" name="maxPrice" placeholder="max">
+							<button class="btn btn-outline-danger" id="btnCleanFilter">Limpiar</button>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>`;
 
 	for (const product of products) {
