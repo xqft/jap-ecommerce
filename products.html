@@ -38,14 +38,19 @@
     </div>
   </nav>
   <main class="px-0 pb-5 container-fluid bg-light">
-    <div class="container-lg px-sm-5 px-0" id="productListHeader">
+    <div class="container-lg px-sm-5 px-0" id="productList">
       <div class="row px-3 px-sm-0 text-left">
         <div class="display-1" id="categoryNameTitle"></div>
         <div class="lead">Se ha<span class="plural-chars">n</span> encontrado <strong id="productCount"></strong> producto<span class="plural-chars">s</span>:</div>
       </div>
       <div class="row my-2">
-        <div class="col-5 col-xxl-8"></div>
-        <form class="col-md-7 col-xxl-4" id="filterForm">
+        <form class="col-md-5 col-xxl-7" id="searchFilterForm">
+          <div class="col input-group">
+            <input type="text" class="form-control" name="searchInput" placeholder="Buscar un producto">
+            <span class="input-group-text"><i class="fa fa-search"></i></span>
+          </div>
+        </form>
+        <form class="col-md-7 col-xxl-5" id="priceFilterForm">
           <div class="row">
             <div class="col input-group needs-validation">
               <span class="input-group-text">$</span>
@@ -63,7 +68,7 @@
           </div>
         </form>
       </div>
-      <div id="productList"></div>
+      <div id="productListContent"></div>
     </div>
   </main>
   <footer class="text-muted">
