@@ -57,7 +57,7 @@ function buildProductListHeaderHTML(category, productCount) {
 			<div class="display-1">${category.catName}</div>
 			<div class="lead">Se han encontrado <strong id="productCount">${productCount}</strong> productos:</div>
 		</div>
-		<div class="row">
+		<div class="row my-2">
 			<div class="col-5 col-xxl-8"></div>
 			<form class="col-md-7 col-xxl-4" id="filterForm">
 				<div class="row">
