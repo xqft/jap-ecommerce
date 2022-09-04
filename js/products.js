@@ -38,16 +38,26 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 function handlePriceFiltering(priceFilterForm, products, productListContentNode) {
-	let data = Object.fromEntries((new FormData(priceFilterForm)).entries());
+	let { minPrice, maxPrice } = Object.fromEntries((new FormData(priceFilterForm)).entries());
 
 	// data validation:
-	data.minPrice = parseInt(data.minPrice, 10) || 0;
-	data.maxPrice = parseInt(data.maxPrice, 10) || Number.MAX_SAFE_INTEGER;
+	minPrice = parseInt(minPrice, 10) || 0;
+	maxPrice = parseInt(maxPrice, 10) || Infinity;
 	// if parseInt returns NaN, a falsy value, then || will return the 
 	// right-hand side operand (this is a way of setting default values).
 
+	const forEachInput = (action) => {
+		for (input of priceFilterForm.querySelectorAll(".input-group input"))
+			action(input);
+	}
+
+	if (minPrice > maxPrice) {
+		forEachInput(input => input.classList.add("is-invalid"));
+		return;
+	} else forEachInput(input => input.classList.remove("is-invalid"));
+
 	const filteredProducts = products.filter(product =>
-		data.minPrice <= product.cost && product.cost <= data.maxPrice);
+		minPrice <= product.cost && product.cost <= maxPrice);
 
 	productListContentNode.innerHTML = buildProductListHTML(filteredProducts);
 	document.querySelector("#productCount").innerHTML = filteredProducts.length;
@@ -62,13 +72,14 @@ function buildProductListHeaderHTML(category, productCount) {
 			<div class="col-5 col-xxl-8"></div>
 			<form class="col-md-7 col-xxl-4" id="filterForm">
 				<div class="row">
-					<div class="col input-group">
+					<div class="col input-group needs-validation">
 						<span class="input-group-text">$</span>
 						<input type="number" class="form-control" name="minPrice" min="0" placeholder="min" oninput="
 						this.value = this.value >= 0 ? this.value : null">
 						<input type="number" class="form-control" name="maxPrice" min="0" placeholder="max" oninput="
 						this.value = this.value >= 0 ? this.value : null">
 						<!-- https://stackoverflow.com/questions/7372067/is-there-any-way-to-prevent-input-type-number-getting-negative-values -->
+						<div class="invalid-feedback">Por favor ingrese precios válidos.</div>
 					</div>
 					<div class="col-auto">
 						<button class="btn btn-primary" type="submit">Filtrar</button>
