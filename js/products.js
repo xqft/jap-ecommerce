@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       handlePriceFiltering(category.products);
   }).catch(err => {
-      document.querySelector("#productListHeader").innerHTML =
+      document.querySelector("#productList").innerHTML =
         `<div class="container">
           <div class="alert alert-danger text-center" role="alert">
           <h4 class="alert-heading">${err}</h4>
@@ -66,9 +66,9 @@ function filterByPrice(prices, products) {
 function updateProductListHeader(categoryName, productCount) {
   if (categoryName) document.querySelector("#categoryNameTitle").innerHTML = categoryName;
   if (productCount) document.querySelector("#productCount").innerHTML = productCount;
-  for (const charNode of document.querySelectorAll("#productListHeader .plural-chars"))
+  for (const charNode of document.querySelectorAll("#productList .plural-chars"))
     if (productCount <= 1) charNode.classList.add("d-none") // hide characters
-    else charNode.classList.add("d-none");
+    else charNode.classList.remove("d-none");
 }
 
 function showProductList(products) {
@@ -93,5 +93,5 @@ function showProductList(products) {
         </div>
       </div>`;
   }
-  document.querySelector("#productList").innerHTML = listHTML;
+  document.querySelector("#productListContent").innerHTML = listHTML;
 }
