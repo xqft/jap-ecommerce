@@ -1,19 +1,18 @@
 window.addEventListener("DOMContentLoaded", () => {
 	const productList = document.querySelector("#productList");	
-	let categoryId = localStorage.getItem("catID");
-	if (categoryId === null) categoryId = "101";
+	const categoryId = localStorage.getItem("catID") || 101; // default category is "autos"
 
-	// TODO: Rewrite getJSONData() as I don't find it well designed
-	getJSONData(PRODUCTS_URL + categoryId + EXT_TYPE).then(({data, status}) => {
-		if (status === "ok") productList.innerHTML = buildProductListHTML(data)
-		else
+		spinnerGetJSONData(PRODUCTS_URL + categoryId + EXT_TYPE)
+			.then(data => {
+				productList.innerHTML = buildProductListHTML(data);
+		}).catch(err => {
 			productList.innerHTML =
 				`<div class="container">
 					<div class="alert alert-danger text-center" role="alert">
-					<h4 class="alert-heading">${data}</h4>
+					<h4 class="alert-heading">${err}</h4>
 					</div>
 				</div>`;
-	});
+		});
 });
 
 function buildProductListHTML(category) {
