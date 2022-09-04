@@ -3,10 +3,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   spinnerGetJSONData(PRODUCTS_URL + categoryId + EXT_TYPE)
     .then(category => {
-      showProductList(category.products);
-      updateProductListHeader(category.catName, category.products.length);
+      document.querySelector("#categoryNameTitle").innerHTML = category.catName;
+      updateProductCount(category.products.length);
 
-      handlePriceFiltering(category.products);
+      showProductList(category.products);
+
+      handleProductsFiltering(category.products);
   }).catch(err => {
       document.querySelector("#productList").innerHTML =
         `<div class="container">
@@ -17,23 +19,41 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function handlePriceFiltering(products) {
-  document.querySelector("#filterForm").addEventListener('submit', (event) => {
+function handleProductsFiltering(products) {
+  const priceFilterForm = document.querySelector("#priceFilterForm");
+  const searchFilterFormInput = document.querySelector("#searchFilterForm input");
+  const buttonCleanFilter = document.querySelector("#btnCleanFilter");
+
+  let priceFilteredProducts = products;
+  let finalFilteredProducts = products;
+
+  const updateList = () => {
+    showProductList(finalFilteredProducts);
+    updateProductCount(finalFilteredProducts.length);
+  }
+
+  priceFilterForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const prices = validatePriceFilterInputs(event.target); // returns null if invalid
-    if (prices) {
-      const filteredProducts = filterByPrice(prices, products);
-      showProductList(filteredProducts);
-      updateProductListHeader(null, filteredProducts.length);
-    }
+    const prices = validatePriceFilterInputs(priceFilterForm); // returns null if invalid
+    if (prices) priceFilteredProducts = filterByPrice(prices, products);
+    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    updateList();
   });
+  searchFilterFormInput.addEventListener('input', () => {
+    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    updateList();
+  })
+  buttonCleanFilter.addEventListener('click', (event) => {
+    event.preventDefault();
 
-  document.querySelector("#btnCleanFilter").addEventListener('click', () => {
-    showProductList(products);
-    updateProductListHeader(null, products.length);
-    for (const input of document.querySelectorAll("#filterForm input"))
+    priceFilteredProducts = products;
+    for (const input of priceFilterForm.querySelectorAll("input")) {
       input.value = "";
+      input.classList.remove("is-invalid");
+    }
+    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    updateList();
   })
 }
 
@@ -63,11 +83,21 @@ function filterByPrice(prices, products) {
     minPrice <= product.cost && product.cost <= maxPrice);
 }
 
-function updateProductListHeader(categoryName, productCount) {
-  if (categoryName) document.querySelector("#categoryNameTitle").innerHTML = categoryName;
-  if (productCount) document.querySelector("#productCount").innerHTML = productCount;
+function filterByText(input, products) {
+  const tokens = input.toLowerCase().split(" ");
+  if (input) return products.filter(product => {
+    for (const token of tokens)
+      if (product.name.toLowerCase().includes(token) || 
+        product.description.toLowerCase().includes(token))
+        return true;
+  });
+  else return products;
+}
+
+function updateProductCount(productCount) {
+  document.querySelector("#productCount").innerHTML = productCount;
   for (const charNode of document.querySelectorAll("#productList .plural-chars"))
-    if (productCount <= 1) charNode.classList.add("d-none") // hide characters
+    if (productCount === 1) charNode.classList.add("d-none") // hide characters
     else charNode.classList.remove("d-none");
 }
 
