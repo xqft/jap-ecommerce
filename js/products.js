@@ -14,6 +14,17 @@ window.addEventListener("DOMContentLoaded", () => {
 			products = data.products;
 			productListHeaderNode.innerHTML = buildProductListHeaderHTML(category, products.length)
 			productListContentNode.innerHTML = buildProductListHTML(products);
+
+			document.querySelector("#filterForm").addEventListener('submit', (event) => {
+				event.preventDefault();
+				handlePriceFiltering(event.target, products, productListContentNode);
+			});
+
+			document.querySelector("#btnCleanFilter").addEventListener('click', () => {
+				productListContentNode.innerHTML = buildProductListHTML(products);
+				for (const input of document.querySelectorAll("#filterForm input"))
+					input.value = "";
+			})
 		}
 		else
 			productListHeaderNode.innerHTML =
@@ -24,16 +35,6 @@ window.addEventListener("DOMContentLoaded", () => {
 				</div>`;
 	});
 
-	document.querySelector("#filterForm").addEventListener('submit', (event) => {
-		event.preventDefault();
-		handlePriceFiltering(event.target, products, productListContentNode);
-	});
-
-	document.querySelector("#btnCleanFilter").addEventListener('click', () => {
-		productListContentNode.innerHTML = buildProductListHTML(products);
-		for (const input of document.querySelectorAll("#filterForm input"))
-			input.value = "";
-	})
 });
 
 function handlePriceFiltering(priceFilterForm, products, productListContentNode) {
