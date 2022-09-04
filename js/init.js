@@ -16,13 +16,13 @@ let hideSpinner = function(){
 }
 
 async function getJSONData(url) {
-		return fetch(url).then(response => {
-			if (response.ok) return response.json()
-			else throw new Error(`${response.status} ${response.statusText}`);
-		});
+    return fetch(url).then(response => {
+      if (response.ok) return response.json()
+      else throw new Error(`${response.status} ${response.statusText}`);
+    });
 }
 
 async function spinnerGetJSONData(url) {
-	showSpinner();
-	return getJSONData(url).finally(() => hideSpinner());
+  showSpinner();
+  return getJSONData(url).finally(() => hideSpinner());
 }
