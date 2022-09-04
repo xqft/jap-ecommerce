@@ -1,27 +1,55 @@
 window.addEventListener("DOMContentLoaded", () => {
-	const productList = document.querySelector("#productList");	
+	const productListHeaderNode	= document.querySelector("#productListHeader");	
+	const productListContentNode = document.querySelector("#productListContent");	
 	let categoryId = localStorage.getItem("catID");
 	if (categoryId === null) categoryId = "101";
+	
+	let category = {};
+	let products = [];
 
 	// TODO: Rewrite getJSONData() as I don't find it well designed
 	getJSONData(PRODUCTS_URL + categoryId + EXT_TYPE).then(({data, status}) => {
-		if (status === "ok") productList.innerHTML = buildProductListHTML(data)
+		if (status === "ok") {
+			category = data;
+			products = data.products;
+			productListHeaderNode.innerHTML = buildProductListHeaderHTML(category, products.length)
+			productListContentNode.innerHTML = buildProductListHTML(products);
+		}
 		else
-			productList.innerHTML =
+			productListHeaderNode.innerHTML =
 				`<div class="container">
 					<div class="alert alert-danger text-center" role="alert">
 					<h4 class="alert-heading">${data}</h4>
 					</div>
 				</div>`;
 	});
+
+	document.querySelector("#filterForm").addEventListener('submit', (event) => {
+		event.preventDefault();
+		handlePriceFiltering(event.target, products, productListContentNode);
+	});
 });
 
-function buildProductListHTML(category) {
-	const products = category.products;
-	let result =
-		`<div class="row px-3 px-sm-0 text-left">
+function handlePriceFiltering(priceFilterForm, products, productListContentNode) {
+	let data = Object.fromEntries((new FormData(priceFilterForm)).entries());
+
+	// data validation:
+	data.minPrice = parseInt(data.minPrice, 10) || 0;
+	data.maxPrice = parseInt(data.maxPrice, 10) || Number.MAX_SAFE_INTEGER;
+	// if parseInt returns NaN, a falsy value, then || will return the 
+	// right-hand side operand (this is a way of setting default values).
+
+	const filteredProducts = products.filter(product =>
+		data.minPrice <= product.cost && product.cost <= data.maxPrice);
+
+	productListContentNode.innerHTML = buildProductListHTML(filteredProducts);
+	document.querySelector("#productCount").innerHTML = filteredProducts.length;
+}
+
+function buildProductListHeaderHTML(category, productCount) {
+	return `<div class="row px-3 px-sm-0 text-left">
 			<div class="display-1">${category.catName}</div>
-			<div class="lead">Se han encontrado <strong>${products.length}</strong> productos:</div>
+			<div class="lead">Se han encontrado <strong id="productCount">${productCount}</strong> productos:</div>
 		</div>
 		<div class="row">
 			<div class="col-5 col-xxl-8"></div>
@@ -42,7 +70,10 @@ function buildProductListHTML(category) {
 				</div>
 			</form>
 		</div>`;
+}
 
+function buildProductListHTML(products) {
+	let result = "";
 	for (const product of products) {
 		result +=
 			`<div class="row mb-3 mx-0 shadow-sm rounded bg-white">
