@@ -38,9 +38,32 @@
     </div>
   </nav>
   <main class="px-0 pb-5 container-fluid bg-light">
-    <div class="container-lg px-sm-5 px-0">
-      <div id="productListHeader"></div>
-      <div id="productListContent"></div>
+    <div class="container-lg px-sm-5 px-0" id="productListHeader">
+      <div class="row px-3 px-sm-0 text-left">
+        <div class="display-1" id="categoryNameTitle"></div>
+        <div class="lead">Se ha<span class="plural-chars">n</span> encontrado <strong id="productCount"></strong> producto<span class="plural-chars">s</span>:</div>
+      </div>
+      <div class="row my-2">
+        <div class="col-5 col-xxl-8"></div>
+        <form class="col-md-7 col-xxl-4" id="filterForm">
+          <div class="row">
+            <div class="col input-group needs-validation">
+              <span class="input-group-text">$</span>
+              <input type="number" class="form-control" name="minPrice" min="0" placeholder="min" oninput="
+              this.value = this.value >= 0 ? this.value : null">
+              <input type="number" class="form-control" name="maxPrice" min="0" placeholder="max" oninput="
+              this.value = this.value >= 0 ? this.value : null">
+              <!-- https://stackoverflow.com/questions/7372067/is-there-any-way-to-prevent-input-type-number-getting-negative-values -->
+              <div class="invalid-feedback">Por favor ingrese precios válidos.</div>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-primary" type="submit">Filtrar</button>
+              <button class="btn btn-outline-danger" id="btnCleanFilter">Limpiar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div id="productList"></div>
     </div>
   </main>
   <footer class="text-muted">

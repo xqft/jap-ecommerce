@@ -3,17 +3,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
   spinnerGetJSONData(PRODUCTS_URL + categoryId + EXT_TYPE)
     .then(category => {
-      document.querySelector("#productListHeader").innerHTML = buildProductListHeaderHTML(category);
-      document.querySelector("#productListContent").innerHTML = buildProductListHTML(category.products);
+      showProductList(category.products);
+      updateProductListHeader(category.catName, category.products.length);
 
       handlePriceFiltering(category.products);
   }).catch(err => {
-    productList.innerHTML =
-      `<div class="container">
-        <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">${err}</h4>
-        </div>
-      </div>`;
+      document.querySelector("#productListHeader").innerHTML =
+        `<div class="container">
+          <div class="alert alert-danger text-center" role="alert">
+          <h4 class="alert-heading">${err}</h4>
+          </div>
+        </div>`;
   });
 });
 
@@ -24,13 +24,14 @@ function handlePriceFiltering(products) {
     const prices = validatePriceFilterInputs(event.target); // returns null if invalid
     if (prices) {
       const filteredProducts = filterByPrice(prices, products);
-      document.querySelector("#productListContent").innerHTML = buildProductListHTML(filteredProducts);
-      document.querySelector("#productCount").innerHTML = filteredProducts.length;
+      showProductList(filteredProducts);
+      updateProductListHeader(null, filteredProducts.length);
     }
   });
 
   document.querySelector("#btnCleanFilter").addEventListener('click', () => {
-    document.querySelector("#productListContent").innerHTML = buildProductListHTML(products);
+    showProductList(products);
+    updateProductListHeader(null, products.length);
     for (const input of document.querySelectorAll("#filterForm input"))
       input.value = "";
   })
@@ -38,7 +39,6 @@ function handlePriceFiltering(products) {
 
 function validatePriceFilterInputs(form) {
   let { minPrice, maxPrice } = Object.fromEntries((new FormData(form)).entries());
-
   minPrice = parseInt(minPrice, 10) || 0;
   maxPrice = parseInt(maxPrice, 10) || Infinity;
 
@@ -47,8 +47,8 @@ function validatePriceFilterInputs(form) {
       action(input);
   }
 
-  // visual feedback
   if (minPrice > maxPrice) {
+    // visual feedback
     forEachInput(input => input.classList.add("is-invalid"));
     return null;
   } else {
@@ -63,37 +63,18 @@ function filterByPrice(prices, products) {
     minPrice <= product.cost && product.cost <= maxPrice);
 }
 
-function buildProductListHeaderHTML(category) {
-  return `<div class="row px-3 px-sm-0 text-left">
-      <div class="display-1">${category.catName}</div>
-      <div class="lead">Se han encontrado <strong id="productCount">${category.products.length}</strong> productos:</div>
-    </div>
-    <div class="row my-2">
-      <div class="col-5 col-xxl-8"></div>
-      <form class="col-md-7 col-xxl-4" id="filterForm">
-        <div class="row">
-          <div class="col input-group needs-validation">
-            <span class="input-group-text">$</span>
-            <input type="number" class="form-control" name="minPrice" min="0" placeholder="min" oninput="
-            this.value = this.value >= 0 ? this.value : null">
-            <input type="number" class="form-control" name="maxPrice" min="0" placeholder="max" oninput="
-            this.value = this.value >= 0 ? this.value : null">
-            <!-- https://stackoverflow.com/questions/7372067/is-there-any-way-to-prevent-input-type-number-getting-negative-values -->
-            <div class="invalid-feedback">Por favor ingrese precios válidos.</div>
-          </div>
-          <div class="col-auto">
-            <button class="btn btn-primary" type="submit">Filtrar</button>
-            <button class="btn btn-outline-danger" id="btnCleanFilter">Limpiar</button>
-          </div>
-        </div>
-      </form>
-    </div>`;
+function updateProductListHeader(categoryName, productCount) {
+  if (categoryName) document.querySelector("#categoryNameTitle").innerHTML = categoryName;
+  if (productCount) document.querySelector("#productCount").innerHTML = productCount;
+  for (const charNode of document.querySelectorAll("#productListHeader .plural-chars"))
+    if (productCount <= 1) charNode.classList.add("d-none") // hide characters
+    else charNode.classList.add("d-none");
 }
 
-function buildProductListHTML(products) {
-  let result = "";
+function showProductList(products) {
+  let listHTML = "";
   for (const product of products) {
-    result +=
+    listHTML +=
       `<div class="row mb-3 mx-0 shadow-sm rounded bg-white">
         <div class="container p-0 d-flex justify-content-between">
           <div class="col-md-3 col-xl-2 col-5 p-0 d-flex align-items-center">
@@ -112,5 +93,5 @@ function buildProductListHTML(products) {
         </div>
       </div>`;
   }
-  return result;
+  document.querySelector("#productList").innerHTML = listHTML;
 }
