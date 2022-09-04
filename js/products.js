@@ -63,10 +63,10 @@ function filterByPrice(prices, products) {
 		minPrice <= product.cost && product.cost <= maxPrice);
 }
 
-function buildProductListHeaderHTML(category, productCount) {
+function buildProductListHeaderHTML(category) {
 	return `<div class="row px-3 px-sm-0 text-left">
 			<div class="display-1">${category.catName}</div>
-			<div class="lead">Se han encontrado <strong id="productCount">${productCount}</strong> productos:</div>
+			<div class="lead">Se han encontrado <strong id="productCount">${category.products.length}</strong> productos:</div>
 		</div>
 		<div class="row my-2">
 			<div class="col-5 col-xxl-8"></div>
