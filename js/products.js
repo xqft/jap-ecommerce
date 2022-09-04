@@ -28,6 +28,12 @@ window.addEventListener("DOMContentLoaded", () => {
 		event.preventDefault();
 		handlePriceFiltering(event.target, products, productListContentNode);
 	});
+
+	document.querySelector("#btnCleanFilter").addEventListener('click', () => {
+		productListContentNode.innerHTML = buildProductListHTML(products);
+		for (const input of document.querySelectorAll("#filterForm input"))
+			input.value = "";
+	})
 });
 
 function handlePriceFiltering(priceFilterForm, products, productListContentNode) {
