@@ -44,6 +44,18 @@
         <div class="lead">Se ha<span class="plural-chars">n</span> encontrado <strong id="productCount"></strong> producto<span class="plural-chars">s</span>:</div>
       </div>
       <div class="row my-2">
+        <div class="d-flex flex-row-reverse">
+          <input type="radio" class="btn-check" name="order-price" id="price-desc" autocomplete="off" checked="">
+          <label class="btn btn-outline-success" for="price-desc"><i class="fas fa-arrow-up"><i class="fas fa-dollar-sign"></i></i></label>
+          
+          <input type="radio" class="btn-check" name="order-price" id="price-asc" autocomplete="off" checked="">
+          <label class="btn btn-outline-success" for="price-asc"><i class="fas fa-arrow-down"><i class="fas fa-dollar-sign"></i></i></label>
+
+          <input type="radio" class="btn-check" name="order-price" id="relev" autocomplete="off" checked="">
+          <label class="btn btn-outline-warning" for="relev"><i class="fas fa-star"></i></label>
+        </div> 
+      </div>
+      <div class="row my-2">
         <form class="col-md-5 col-xxl-7" id="searchFilterForm">
           <div class="col input-group">
             <input type="text" class="form-control" name="searchInput" placeholder="Buscar un producto">

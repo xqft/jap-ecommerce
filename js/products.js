@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
       showProductList(category.products);
 
-      handleProductsFiltering(category.products);
+      handleProducts(category.products);
   }).catch(err => {
       document.querySelector("#productList").innerHTML =
         `<div class="container">
@@ -19,33 +19,46 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-function handleProductsFiltering(products) {
+function handleProducts(products) {
   const priceFilterForm = document.querySelector("#priceFilterForm");
   const searchFilterFormInput = document.querySelector("#searchFilterForm input");
   const buttonCleanFilter = document.querySelector("#btnCleanFilter");
 
   let priceFilteredProducts = products;
   let finalProducts = products;
+  let orderingCriteria = "relev";
 
   const updateList = () => {
+    finalProducts = orderProducts(finalProducts, orderingCriteria);
     showProductList(finalProducts);
     updateProductCount(finalProducts.length);
   }
 
+  // The list gets filtered by price and by text
   priceFilterForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
     const prices = validatePriceFilterInputs(priceFilterForm);
     priceFilteredProducts = filterByPrice(prices, products);
+
     finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   });
   
+  // The list only gets filtered by text
   searchFilterFormInput.addEventListener('input', () => {
     finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   })
 
+  for (const id of ["price-asc", "price-desc", "relev"])
+    document.querySelector("#" + id).addEventListener("click", () => {
+      orderingCriteria = id; 
+      updateList();
+      // Every button id matches its criteria
+    })
+
+  // The price filtering inputs are cleaned
   buttonCleanFilter.addEventListener('click', (event) => {
     event.preventDefault();
 
@@ -57,6 +70,14 @@ function handleProductsFiltering(products) {
     finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   })
+}
+
+function orderProducts(products, criteria) {
+  switch (criteria) {
+    case "price-asc":   return products.sort((a, b) => a.cost - b.cost);
+    case "price-desc":  return products.sort((a, b) => b.cost - a.cost);
+    case "relev":       return products.sort((a, b) => b.soldCount - a.soldCount);
+  }
 }
 
 function validatePriceFilterInputs(form) {
