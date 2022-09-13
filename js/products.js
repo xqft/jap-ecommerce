@@ -25,25 +25,27 @@ function handleProductsFiltering(products) {
   const buttonCleanFilter = document.querySelector("#btnCleanFilter");
 
   let priceFilteredProducts = products;
-  let finalFilteredProducts = products;
+  let finalProducts = products;
 
   const updateList = () => {
-    showProductList(finalFilteredProducts);
-    updateProductCount(finalFilteredProducts.length);
+    showProductList(finalProducts);
+    updateProductCount(finalProducts.length);
   }
 
   priceFilterForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const prices = validatePriceFilterInputs(priceFilterForm); // returns null if invalid
-    if (prices) priceFilteredProducts = filterByPrice(prices, products);
-    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    const prices = validatePriceFilterInputs(priceFilterForm);
+    priceFilteredProducts = filterByPrice(prices, products);
+    finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   });
+  
   searchFilterFormInput.addEventListener('input', () => {
-    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   })
+
   buttonCleanFilter.addEventListener('click', (event) => {
     event.preventDefault();
 
@@ -52,7 +54,7 @@ function handleProductsFiltering(products) {
       input.value = "";
       input.classList.remove("is-invalid");
     }
-    finalFilteredProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
+    finalProducts = filterByText(searchFilterFormInput.value, priceFilteredProducts);
     updateList();
   })
 }
@@ -78,9 +80,11 @@ function validatePriceFilterInputs(form) {
 }
 
 function filterByPrice(prices, products) {
-  const { minPrice, maxPrice } = prices;
-  return products.filter(product =>
-    minPrice <= product.cost && product.cost <= maxPrice);
+  if (prices) {
+    const { minPrice, maxPrice } = prices;
+    return products.filter(product =>
+      minPrice <= product.cost && product.cost <= maxPrice);
+  }
 }
 
 function filterByText(input, products) {
