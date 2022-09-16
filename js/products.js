@@ -130,23 +130,25 @@ function showProductList(products) {
   let listHTML = "";
   for (const product of products) {
     listHTML +=
-      `<div class="row mb-3 mx-0 shadow-sm rounded bg-white">
-        <div class="container p-0 d-flex justify-content-between">
-          <div class="col-md-3 col-xl-2 col-5 p-0 d-flex align-items-center">
+      `<a href=# class="list-group-item list-group-item-action card mb-3 mx-0 p-0 shadow-sm rounded bg-white">
+        <div class="row g-0">
+          <div class="col-md-4 col-xl-3 col-5 p-0 d-flex flex-wrap align-items-center">
             <img class="img-fluid" src="${product.image}" alt="imagen de ${product.name}">
           </div>
-          <div class="col mx-2 d-flex flex-column">
-              <h2>${product.name}</h2>
-              <p>${product.description}</p>
+          <div class="col d-flex flex-row align-items-center">
+            <div class="card-body p-1 ps-3">
+              <h2 class="card-title">${product.name}</h2>
+              <p class="card-text">${product.description}</p>
               <div class="container p-0 mt-auto d-flex flex-row justify-content-between">
-                <h3>${product.currency} ${product.cost}</h3>
-                <p class="text-end text-secondary small">${product.soldCount} vendidos.</p> 
+                <h3 class="card-text">${product.currency} ${product.cost}</h3>
+                <p class="card-text text-end text-secondary small">${product.soldCount} vendidos.</p> 
               </div>
+            </div>
           </div>
           <div class="col-sm-auto align-self-end">
           </div>
         </div>
-      </div>`;
+      </a>`;
   }
   document.querySelector("#productListContent").innerHTML = listHTML;
 }
