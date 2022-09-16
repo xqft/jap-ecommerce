@@ -9,18 +9,27 @@ document.addEventListener("DOMContentLoaded", () => {
 function showProduct(product) {
   for (const element of document.querySelectorAll(".productInfo"))
     element.innerHTML = product[element.getAttribute("name")];
+  // Each element's name matches the product object property.
 
-  const imagesDiv = document.querySelector("#productImages")
-  imagesDiv.classList.add("row-cols-" + product.images.length);
+  const imgContainer = document.querySelector("#productImages")
+  imgContainer.classList.add("row-cols-" + product.images.length);
+  document.querySelector("#mainImage").setAttribute("src", product.images[0]);
 
   for (const img of product.images) {
-    const element = document.createElement("img");
-
-    element.setAttribute("src", img);
-    element.setAttribute("alt", product.name);
-    element.classList.add("img-fluid", "col", "p-1")
-
-    imagesDiv.appendChild(element);
-    //TODO: addeventlistener for click event
+    const id = product.images.indexOf(img);
+    imgContainer.innerHTML +=
+      `<div class="btn col p-1">
+      <input type="radio" class="btn-check" id="thumb-${id}" name="thumbimg" autocomplete="off" checked="">
+        <label class="btn p-0" for="thumb-${id}">
+          <img class="img-fluid" src="${img}" alt="${product.name}">
+        </label>
+      </div>`;
   }
+
+  // FIXME: This should be inside the previous for..of, it didn't work properly
+  // when I tried and I don't have time to keep trying.
+  document.querySelectorAll("input").forEach(elem => elem.addEventListener("click", () => {
+    const index = elem.getAttribute("id").slice("thumb-".length);
+    document.querySelector("#mainImage").setAttribute("src", product.images[index]);
+    }));
 }
