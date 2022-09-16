@@ -38,9 +38,38 @@
     </div>
   </nav>
   <main>
-    <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+    <div class="container-lg">
+      <div class="row mt-5">
+        <div class="col-8 rounded-start">
+          <div class="row">
+            <img id="mainImage" class="p-0" src="https://dummyimage.com/1/fff/fff" alt="">
+          </div>
+          <div class="row">
+            <div id="productImages" class="p-0 d-flex flex-row justify-content-between"></div>
+          </div>
+        </div>
+        <div class="col-4 d-flex flex-column border border-1 rounded-end shadow">
+          <div class="row mb-2">
+            <h1 name="name" class="productInfo">producto</h1>
+            <h4 class="productInfo text-muted" name="category">categoria</h4>
+          </div>
+          <div class="row mb-2">
+            <h3 >Descripción:</h3>
+            <p name="description" class="productInfo"></p>
+          </div>
+          <div class="row mb-2">
+            <p class="text-muted">Cantidad vendida: <span class="productInfo" name="soldCount"></span></p>
+          </div>
+          <div class="row mt-auto">
+            <h1><span class="productInfo" name="currency"></span> <span class="productInfo" name="cost"></span></h1>
+          </div>
+          <div class="row mt-2">
+            <button class="btn  btn-success shadow">Comprar ahora</button>
+          </div>
+          <div class="row mt-2">
+            <button class="btn  btn-outline-success shadow">Agregar al carrito</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
