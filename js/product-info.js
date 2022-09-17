@@ -63,7 +63,7 @@ function showComments(comments) {
       container.innerHTML +=
         `<div class="row list-item shadow-sm mb-2">
           <div class="d-flex flex-row pt-1">
-            <h5 class="pe-3"><strong>${comment.user}</strong></h5>
+            <h6 class="pe-3"><strong>${comment.user}</strong></h6>
             <div id="starRating">${starRating}</div>
             <p class="text-muted ms-auto">${new Date(comment.dateTime).toLocaleString()}</p>
           </div>
