@@ -3,7 +3,10 @@ const productId = sessionStorage.getItem("selectedProduct") ?? 50921; // Chevrol
 document.addEventListener("DOMContentLoaded", () => {
   let comments = null;
   spinnerGetJSONData(PRODUCT_INFO_URL + productId + EXT_TYPE)
-    .then(showProduct);
+    .then((product) => {
+      showProduct(product);
+      showRelatedProducts(product.relatedProducts);
+    });
 
   spinnerGetJSONData(PRODUCT_INFO_COMMENTS_URL + productId + EXT_TYPE)
     .then(data => {
@@ -22,13 +25,12 @@ function showProduct(product) {
   // Each element's name matches the product object property.
 
   const imgContainer = document.querySelector("#productImages")
-  imgContainer.classList.add("row-cols-" + product.images.length);
   document.querySelector("#mainImage").setAttribute("src", product.images[0]);
 
   for (const img of product.images) {
     const id = product.images.indexOf(img);
     imgContainer.innerHTML +=
-      `<div class="btn col py-1 px-0">
+      `<div class="btn py-1 px-0">
       <input type="radio" class="btn-check" id="thumb-${id}" name="thumbimg" autocomplete="off" checked="">
         <label class="btn p-0" for="thumb-${id}">
           <img class="img-fluid" src="${img}" alt="${product.name}">
@@ -75,6 +77,33 @@ function showComments(comments) {
       `<div class="row">
         <h3 class="text-muted text-center">No hay comentarios para este producto.</h3>
       </div>`;
+}
+
+function showRelatedProducts(products) {
+  const container = document.querySelector("#relatedProducts");
+  
+  if (products.length != 0) {
+    for (const product of products) {
+      const elem = document.createElement("div");
+      container.appendChild(elem);
+      elem.classList.add("btn", "col", "py-1", "px-0");
+
+      elem.innerHTML =
+        `<div class="shadow-sm">
+          <input type="radio" class="btn-check" id="relprod-${product.id}" autocomplete="off" checked="">
+            <label class="btn p-0" for="relprod-${product.id}">
+              <img class="img-fluid" src="${product.image}" alt="${product.name}">
+            </label>
+          <h4>${product.name}</h4>
+        </div>`;
+
+      elem.addEventListener("click", (e) => {
+        e.preventDefault();
+        sessionStorage.setItem("selectedProduct", product.id);
+        window.location = "product-info.html";
+      });
+    }
+  }
 }
 
 function genStarRating(score, bigger) {
