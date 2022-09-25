@@ -25,25 +25,37 @@ function showProduct(product) {
   // Each element's name matches the product object property.
 
   const imgContainer = document.querySelector("#productImages")
-  document.querySelector("#mainImage").setAttribute("src", product.images[0]);
+  const carouselInner = document.querySelector("#imageCarousel .carousel-inner");
 
   for (const img of product.images) {
     const id = product.images.indexOf(img);
-    imgContainer.innerHTML +=
-      `<div class="btn py-1 px-0">
-      <input type="radio" class="btn-check" id="thumb-${id}" name="thumbimg" autocomplete="off" checked="">
-        <label class="btn p-0" for="thumb-${id}">
-          <img class="img-fluid" src="${img}" alt="${product.name}">
-        </label>
+
+    carouselInner.innerHTML +=
+      `<div class="carousel-item ${id === 0 ? 'active' : ''}">
+        <img class="d-block w-100" src="${img}" alt="${product.name}">
       </div>`;
+
+    const elem = document.createElement("div");
+    imgContainer.appendChild(elem);
+    
+    elem.classList.add("btn", "py-1", "px-0");
+    elem.innerHTML =
+      `<button type="radio" class="btn-check" id="thumb-${id}" autocomplete="off" checked="" data-bs-target="#imageCarousel" data-bs-slide-to="${id}"></button>
+        <label class="btn p-0" for="thumb-${id}">
+        <img class="img-fluid ${id === 0 ? 'faded' : ''}" src="${img}" alt="${product.name}">
+        </label>`;
+
+    elem.querySelector("button").addEventListener("click", (e) => {
+      const index = e.target.getAttribute("id").slice("thumb-".length);
+      document.querySelector("#mainImage").setAttribute("src", product.images[index]);
+    })
   }
 
-  // FIXME: This should be inside the previous for..of, it didn't work properly
-  // when I tried and I don't have time to keep trying.
-  document.querySelectorAll("input").forEach(elem => elem.addEventListener("click", () => {
-    const index = elem.getAttribute("id").slice("thumb-".length);
-    document.querySelector("#mainImage").setAttribute("src", product.images[index]);
-    }));
+  // fade selected thumbnails of carousel
+  document.querySelector("#imageCarousel").addEventListener("slide.bs.carousel", (e) => {
+    document.querySelector(`#thumb-${e.from}`).nextElementSibling.firstElementChild.classList.remove("faded");
+    document.querySelector(`#thumb-${e.to}`)  .nextElementSibling.firstElementChild.classList.add("faded");
+  })
 }
 
 function showComments(comments) {

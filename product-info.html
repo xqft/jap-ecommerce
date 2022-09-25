@@ -42,7 +42,17 @@
       <div class="row mt-5">
         <div class="col-md-8 rounded-start">
           <div class="row">
-            <img id="mainImage" class="p-0" src="https://dummyimage.com/1/fff/fff" alt="">
+            <div class="carousel slide p-0" id="imageCarousel" data-bs-ride="carousel" data-bs-pause="hover">
+              <div class="carousel-inner"></div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+              </button>
+            </div>
           </div>
           <div class="row">
             <div id="productImages" class="p-0 d-flex flex-row justify-content-between"></div>
