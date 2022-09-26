@@ -2,9 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   loadNavbar().then(navbar => { 
     document.querySelector("#navbar").replaceWith(navbar)
     showNavbarUsername();
+
+    document.querySelector("#logoutAnchor").addEventListener("click", () => {
+      localStorage.removeItem("login-data-loggedin");
+      sessionStorage.removeItem("login-data-loggedin");
+    })
   })
   .catch(err => console.error("Could not load navbar.html: " + err));
-
 });
 
 async function loadNavbar() {
@@ -17,7 +21,7 @@ async function loadNavbar() {
 }
 
 function showNavbarUsername() {
-  const usernameNavbarNode = document.querySelector("#navbarUsername");
+  const usernameNavbarNode = document.querySelector("#usernameDropdown");
   const username = (window.localStorage.getItem("login-data-email") ?? "Invitado").split("@")[0];
 
   usernameNavbarNode.innerHTML = username;
