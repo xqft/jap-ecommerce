@@ -156,7 +156,7 @@ function createProductList(products) {
 
     element.addEventListener('click', (e) => {
       e.preventDefault();
-      sessionStorage.setItem("selectedProduct", product.id);
+      localStorage.setItem("selectedProduct", product.id);
       window.location = "product-info.html";
     })
     list.appendChild(element);

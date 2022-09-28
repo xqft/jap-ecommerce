@@ -1,4 +1,4 @@
-const productId = sessionStorage.getItem("selectedProduct") ?? 50921; // Chevrolet Onix as default
+const productId = localStorage.getItem("selectedProduct") ?? 50921; // Chevrolet Onix as default
 
 document.addEventListener("DOMContentLoaded", () => {
   let comments = null;
@@ -111,7 +111,7 @@ function showRelatedProducts(products) {
 
       elem.addEventListener("click", (e) => {
         e.preventDefault();
-        sessionStorage.setItem("selectedProduct", product.id);
+        localStorage.setItem("selectedProduct", product.id);
         window.location = "product-info.html";
       });
     }
