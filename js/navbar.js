@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector("#logoutAnchor").addEventListener("click", () => {
       localStorage.removeItem("login-data-loggedin");
       sessionStorage.removeItem("login-data-loggedin");
+
+      localStorage.removeItem("login-data-email");
     })
   })
   .catch(err => console.error("Could not load navbar.html: " + err));

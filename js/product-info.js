@@ -44,11 +44,6 @@ function showProduct(product) {
         <label class="btn p-0" for="thumb-${id}">
         <img class="img-fluid ${id === 0 ? 'faded' : ''}" src="${img}" alt="${product.name}">
         </label>`;
-
-    elem.querySelector("button").addEventListener("click", (e) => {
-      const index = e.target.getAttribute("id").slice("thumb-".length);
-      document.querySelector("#mainImage").setAttribute("src", product.images[index]);
-    })
   }
 
   // fade selected thumbnails of carousel
