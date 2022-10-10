@@ -13,10 +13,60 @@
 
 <body>
   <div id="navbar"></div>
-  <main>
+  <main class="bg-light">
     <div class="container">
-      <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">Funcionalidad en desarrollo</h4>
+      <h1 class="display-1">Mi carrito</h1>
+      <div class="row rounded shadow bg-white">
+        <div class="col-md-8 p-0">
+          <table class="table align-middle">
+            <thead>
+              <tr class="text-center">
+                <th scope="col" colspan="2">Artículo</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="listBody">
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-4 d-flex flex-column border border-1">
+          <div class="row mb-2">
+            <h1 name="name" class="productInfo">Envío</h1>
+            <form>
+              <label class="form-label" for="street">Calle</label>
+              <input type="text" class="form-control" name="street" id="street">
+
+              <label class="form-label" for="number">Número</label>
+              <input type="text" class="form-control" name="number" id="number">
+
+              <label class="form-label" for="corner">Esquina</label>
+              <input type="text" class="form-control" name="corner" id="corner">
+
+              <hr>
+
+              <label class="mb-1" for="delivery-type">Tipo de envío</label>
+              <div id="delivery-type">
+                <input type="radio" class="form-control btn-check" name="delivery-type" id="dt-standard" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="dt-standard"><i class="fas fa-box"></i></label>
+                
+                <input type="radio" class="form-control btn-check" name="delivery-type" id="dt-express" autocomplete="off">
+                <label class="btn btn-outline-primary" for="dt-express"><i class="fas fa-shipping-fast"></i></label>
+
+                <input type="radio" class="form-control btn-check" name="delivery-type" id="dt-premium" autocomplete="off">
+                <label class="btn btn-outline-primary" for="dt-premium"><i class="fas fa-star"></i></label>
+              </div>
+              <br>
+              <span id="deliveryTypeInfo"><b>Standard:</b> 12 a 15 días (5%)</span>
+            </form>
+          </div>
+          <div class="row mt-2">
+            <button class="btn  btn-success shadow">Ir al checkout</button>
+          </div>
+          <div class="row mt-2">
+            <button class="btn  btn-outline-success shadow">Seguir explorando</button>
+          </div>
+        </div>
       </div>
     </div>
   </main>
