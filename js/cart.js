@@ -1,7 +1,7 @@
 const cart = spinnerGetJSONData(CART_INFO_URL + "25801" + EXT_TYPE);
 
 document.addEventListener("DOMContentLoaded", () => {
-  setDeliveryInfoEvents();
+  document.querySelectorAll("#delivery-type > input").forEach(setDeliveryInfo);
 
   const body = document.querySelector("#listBody");
 
@@ -39,20 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 })
 
-function setDeliveryInfoEvents() {
-  ["dt-standard", "dt-express", "dt-premium"].forEach(type => {
-    document.getElementById(type).addEventListener("click", () => {
-      const info = () => {
-        switch (type) {
-          case "dt-standard": return "<b>Standard:</b> 12 a 15 días (5%)";
-          case "dt-express":  return "<b>Express:</b> 5 a 6 días (7%)";
-          case "dt-premium":  return "<b>Premium:</b> 2 a 5 días (15%)";
-        }
-      }
+function setDeliveryInfo(elem) {
+  const info = (() => {
+    switch (elem.getAttribute("name")) {
+      case "dt-standard": return "<b>Standard:</b> 12 a 15 días (5%)";
+      case "dt-express":  return "<b>Express:</b> 5 a 6 días (7%)";
+      case "dt-premium":  return "<b>Premium:</b> 2 a 5 días (15%)";
+    }
+  })();
 
-      document.getElementById("deliveryTypeInfo").innerHTML = info();
-    })
-  })
+  elem.addEventListener("click", () => {
+    document.getElementById("deliveryTypeInfo").innerHTML = info;
+  }) 
 }
 
 function elementFromHTML(html) {
