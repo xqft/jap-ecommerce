@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function setDeliveryInfo(elem) {
   const info = (() => {
-    switch (elem.getAttribute("name")) {
+    switch (elem.id) {
       case "dt-standard": return "<b>Standard:</b> 12 a 15 días (5%)";
       case "dt-express":  return "<b>Express:</b> 5 a 6 días (7%)";
       case "dt-premium":  return "<b>Premium:</b> 2 a 5 días (15%)";
