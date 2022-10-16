@@ -51,10 +51,13 @@
             <h1><span class="productInfo" name="currency"></span> <span class="productInfo" name="cost"></span></h1>
           </div>
           <div class="row mt-2">
-            <button class="btn  btn-success shadow">Comprar ahora</button>
+            <button class="buy-btn btn  btn-success shadow" name="buyNow">Comprar ahora</button>
           </div>
           <div class="row mt-2">
-            <button class="btn  btn-outline-success shadow">Agregar al carrito</button>
+            <button class="buy-btn btn btn-outline-success shadow" name="addToCart">Agregar al carrito</button>
+          </div>
+          <div id="cartInfo" class="row mt-2 d-none">
+            <small class="text-muted">Has agregado <span id="toBuyCount"></span> unidad(es) a tu carrito.</small>
           </div>
         </div>
       </div>

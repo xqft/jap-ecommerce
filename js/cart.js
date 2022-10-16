@@ -3,10 +3,11 @@ const cart = spinnerGetJSONData(CART_INFO_URL + "25801" + EXT_TYPE);
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("#delivery-type > input").forEach(setDeliveryInfo);
 
-  const body = document.querySelector("#listBody");
-
   cart.then(data => {
-   const list = data.articles.reduce((accum, item) => {
+    const localCart = JSON.parse(window.localStorage.getItem("cart-products") ?? "[]");
+    const products = data.articles.concat(localCart);
+
+    const nodeList = products.map(item => {
           const {id, name, count, unitCost, currency, image} = item;
 
           const elem = elementFromHTML(
@@ -32,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
           elem.querySelector("input").addEventListener("input", e =>
             elem.querySelector("span.subtotal").innerHTML = unitCost * Math.max(e.target.value, 1));
 
-          return accum.appendChild(elem);
-        }, document.createElement("div"));
+          return elem;
+        });
 
-    body.appendChild(list);
+    document.getElementById("listBody").append(...nodeList);
   })
 })
 

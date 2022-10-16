@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((product) => {
       showProduct(product);
       showRelatedProducts(product.relatedProducts);
+
+      document.querySelectorAll(".buy-btn").forEach(elem => {
+        elem.addEventListener("click", (event) => {
+          addToCart(product);
+          if (event.target.getAttribute("name") === "buyNow") window.location = "cart.html";
+        })
+      });
     });
 
   spinnerGetJSONData(PRODUCT_INFO_COMMENTS_URL + productId + EXT_TYPE)
@@ -18,6 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 });
+
+function addToCart(product) {
+  const cart = JSON.parse(window.localStorage.getItem("cart-products") ?? "[]");
+  const prodInCart = cart.find(prod => prod.id === product.id)
+
+  if (prodInCart) prodInCart.count += 1
+  else {
+    const productSubset = (({ id, name, cost, currency, images}) => 
+    ({ id, name, count: 1, unitCost: cost, currency, image: images[0]}))(product);
+    cart.push(productSubset);
+  }
+
+  window.localStorage.setItem("cart-products", JSON.stringify(cart));
+
+  document.getElementById("toBuyCount").innerHTML = prodInCart ? prodInCart.count : 1;
+  document.getElementById("cartInfo").classList.remove("d-none");
+}
 
 function showProduct(product) {
   for (const element of document.querySelectorAll(".productInfo"))
@@ -51,6 +75,14 @@ function showProduct(product) {
     document.querySelector(`#thumb-${e.from}`).nextElementSibling.firstElementChild.classList.remove("faded");
     document.querySelector(`#thumb-${e.to}`)  .nextElementSibling.firstElementChild.classList.add("faded");
   })
+
+  // show info if the item has been added to the cart
+  const cart = JSON.parse(window.localStorage.getItem("cart-products") ?? "[]");
+  const prodInCart = cart.find(prod => prod.id === product.id)
+  if (prodInCart) {
+    document.getElementById("toBuyCount").innerHTML = prodInCart.count;
+    document.getElementById("cartInfo").classList.remove("d-none");
+  }
 }
 
 function showComments(comments) {
