@@ -1,3 +1,5 @@
+import { getCart, setLocalCart } from "/js/cart/cart-data.js";
+
 const productId = localStorage.getItem("selectedProduct") ?? 50921; // Chevrolet Onix as default
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,20 +29,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function addToCart(product) {
-  const cart = JSON.parse(window.localStorage.getItem("cart-products") ?? "[]");
-  const prodInCart = cart.find(prod => prod.id === product.id)
+  getCart().then(cart => {
+    const prodInCart = cart.find(prod => prod.id === product.id)
 
-  if (prodInCart) prodInCart.count += 1
-  else {
-    const productSubset = (({ id, name, cost, currency, images}) => 
-    ({ id, name, count: 1, unitCost: cost, currency, image: images[0]}))(product);
-    cart.push(productSubset);
-  }
+    if (prodInCart) prodInCart.count += 1
+    else {
+      const productSubset = (({ id, name, cost, currency, images}) => 
+      ({ id, name, count: 1, unitCost: cost, currency, image: images[0]}))(product);
+      cart.push(productSubset);
+    }
 
-  window.localStorage.setItem("cart-products", JSON.stringify(cart));
+    setLocalCart(cart);
 
-  document.getElementById("toBuyCount").innerHTML = prodInCart ? prodInCart.count : 1;
-  document.getElementById("cartInfo").classList.remove("d-none");
+    document.getElementById("toBuyCount").innerHTML = prodInCart ? prodInCart.count : 1;
+    document.getElementById("cartInfo").classList.remove("d-none");
+  })
 }
 
 function showProduct(product) {

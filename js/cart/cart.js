@@ -1,12 +1,9 @@
-const cart = spinnerGetJSONData(CART_INFO_URL + "25801" + EXT_TYPE);
+import { getCart } from "/js/cart/cart-data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("#delivery-type > input").forEach(setDeliveryInfo);
 
-  cart.then(data => {
-    const localCart = JSON.parse(window.localStorage.getItem("cart-products") ?? "[]");
-    const products = data.articles.concat(localCart);
-
+  getCart().then(products => {
     const nodeList = products.map(item => {
           const {id, name, count, unitCost, currency, image} = item;
 
