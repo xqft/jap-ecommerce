@@ -31,7 +31,7 @@
           </table>
         </div>
         <div class="col-md-4 d-flex flex-column border border-1">
-          <div class="row mb-2">
+          <div class="row mb-1">
             <h1 name="name" class="productInfo">Envío</h1>
             <form>
               <label class="form-label" for="street">Calle</label>
@@ -46,9 +46,9 @@
               <hr>
 
               <label class="mb-1" for="delivery-type">Tipo de envío</label>
-              <div id="delivery-type">
+              <div id="delivery-type" class="row row-cols-3">
                 <input type="radio" class="form-control btn-check" name="delivery-type" id="dt-standard" autocomplete="off" checked>
-                <label class="btn btn-outline-primary" for="dt-standard"><i class="fas fa-box"></i></label>
+                <label class="btn btn-outline-primary" for="dt-standard"><i class="fas fa-box mx-auto"></i></label>
                 
                 <input type="radio" class="form-control btn-check" name="delivery-type" id="dt-express" autocomplete="off">
                 <label class="btn btn-outline-primary" for="dt-express"><i class="fas fa-shipping-fast"></i></label>
@@ -57,7 +57,9 @@
                 <label class="btn btn-outline-primary" for="dt-premium"><i class="fas fa-star"></i></label>
               </div>
               <br>
-              <span id="deliveryTypeInfo"><b>Standard:</b> 12 a 15 días (5%)</span>
+              <div class="d-flex justify-content-center">
+                <span id="deliveryTypeInfo"><b>Standard:</b> 12 a 15 días (5%)</span>
+              </div>
             </form>
           </div>
           <div class="row mt-2">
