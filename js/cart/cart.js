@@ -1,5 +1,5 @@
-import { getCart, setCartItemCount } from "/js/cart/cart-data.js";
-import { cartFormValidation } from "/js/cart/cart-form.js";
+import { getCart, setCartItemCount } from "./cart-data.js";
+import { cartFormValidation } from "./cart-form.js";
 
 const deliveryInfo = {
   "dt-standard": {text: "<b>Standard:</b> 12 a 15 días (5%)", fraction: 0.05},

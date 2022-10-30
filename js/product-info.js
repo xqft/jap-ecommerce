@@ -1,4 +1,4 @@
-import { getCart, setLocalCart } from "/js/cart/cart-data.js";
+import { getCart, setLocalCart } from "./cart/cart-data.js";
 
 const productId = localStorage.getItem("selectedProduct") ?? 50921; // Chevrolet Onix as default
 
