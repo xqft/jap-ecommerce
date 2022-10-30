@@ -1,4 +1,5 @@
 import { getCart, setCartItemCount } from "/js/cart/cart-data.js";
+import { cartFormValidation } from "/js/cart/cart-form.js";
 
 const deliveryInfo = {
   "dt-standard": {text: "<b>Standard:</b> 12 a 15 días (5%)", fraction: 0.05},
@@ -12,7 +13,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("listBody").append(...cartList);
   updateCosts();
+
   setDeliveryTypeEvents();
+  cartFormValidation(document.getElementById("cartForm"));
 });
 
 function genCartList(products) {
@@ -75,7 +78,7 @@ function updateCosts() {
     costs["total"]    = costs.subtotal + costs.delivery;
 
     Object.entries(costs).forEach(([key, value]) => {
-      document.querySelector(`.checkout-costs[name=${key}]`).innerHTML = "USD " + value;
+      document.querySelector(`.checkout-costs[name=${key}]`).innerHTML = "USD " + Math.round(value);
     });
   })
 }
