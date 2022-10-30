@@ -7,12 +7,14 @@ export function cartFormValidation(form) {
     event.preventDefault();
     event.stopPropagation();
 
-    if (form.checkValidity()) {
+    if (form.checkValidity() && fieldsetCheckValidity()) {
       paymentSuccess();
     } else {
       // add .was-validated to all relevant elements
       document.querySelectorAll("form, fieldset")
         .forEach(elem => elem.classList.add("was-validated"));
+
+      validatePaymentMethod();
 
       // update payment method button feedback on every input's "input" event.
       document.querySelectorAll("fieldset input")
@@ -22,18 +24,12 @@ export function cartFormValidation(form) {
 }
 
 function validatePaymentMethod() {
-  const fieldsetValid = Array.from(document
-    .querySelectorAll("fieldset:not([disabled]) input"))
-    .map(elem => elem.checkValidity())
-    .reduce((prev, current) => prev && current, true);
-  // a single invalid input will make this false.
-  // this is necessary as checkValidity() doesn't work in a fieldset.
   const fieldsetWasValidated = document.querySelector("fieldset:not([disabled])")
     .classList.contains("was-validated");
 
   const payMethodBtn = document.getElementById("payMethodBtn");
 
-  if (fieldsetValid)              payMethodBtn.classList.remove("is-invalid")
+  if (fieldsetCheckValidity())    payMethodBtn.classList.remove("is-invalid")
   else if (fieldsetWasValidated)  payMethodBtn.classList.add("is-invalid");
 }
 
@@ -59,4 +55,13 @@ function paymentSuccess() {
 
   document.querySelectorAll(".was-validated")
     .forEach(elem => elem.classList.remove("was-validated"));
+}
+
+function fieldsetCheckValidity() {
+  return Array.from(document
+    .querySelectorAll("fieldset:not([disabled]) input"))
+    .map(elem => elem.checkValidity())
+    .reduce((prev, current) => prev && current, true);
+  // a single invalid input will make this false.
+  // this is necessary as checkValidity() doesn't work in a fieldset.
 }
