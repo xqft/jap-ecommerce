@@ -31,17 +31,26 @@
           </table>
         </div>
         <div class="col-md-4 d-flex flex-column border border-1">
-          <div class="row mb-1">
+          <div class="row my-1">
             <h1 name="name" class="productInfo">Envío</h1>
-            <form>
-              <label class="form-label" for="street">Calle</label>
-              <input type="text" class="form-control" name="street" id="street">
+            <form id="cartForm" novalidate>
+              <div>
+                <label class="form-label" for="street">Calle</label>
+                <input type="text" class="form-control" name="street" id="street" required>
+                <div class="invalid-feedback">Ingresa una calle</div>
+              </div>
 
-              <label class="form-label" for="number">Número</label>
-              <input type="text" class="form-control" name="number" id="number">
+              <div>
+                <label class="form-label" for="number">Número</label>
+                <input type="text" class="form-control" name="number" id="number" required>
+                <div class="invalid-feedback">Ingresa un número</div>
+              </div>
 
-              <label class="form-label" for="corner">Esquina</label>
-              <input type="text" class="form-control" name="corner" id="corner">
+              <div>
+                <label class="form-label" for="corner">Esquina</label>
+                <input type="text" class="form-control" name="corner" id="corner" required>
+                <div class="invalid-feedback">Ingresa una esquina</div>
+              </div>
 
               <hr>
 
@@ -62,11 +71,102 @@
               </div>
             </form>
           </div>
+          <hr>
+          <div class="row mb-2">
+            <h1 class="productInfo">Costos</h1>
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <div class="d-flex flex-row justify-content-between">
+                    <span>Subtotal:</span>
+                    <span class="checkout-costs" name="subtotal"></span>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex flex-row justify-content-between">
+                    <span>Costo de envío:</span>
+                    <span class="checkout-costs" name="delivery"></span>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex flex-row justify-content-between">
+                    <strong>Total:</strong>
+                    <span class="checkout-costs" name="total"></span>
+                  </div>
+                </li>
+              </ul>
+          </div>
+          <hr>
+          <div class="row mb-2">
+            <h1 class="productInfo">Forma de pago</h1>
+              <button type="button" id="payMethodBtn" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#paymentModal">Seleccionar forma de pago</button>
+              <span class="invalid-feedback text-center">Debe seleccionar una forma de pago.</span>
+          </div>
           <div class="row mt-2">
-            <button class="btn  btn-success shadow">Ir al checkout</button>
+            <button type="submit" class="btn btn-success shadow" form="cartForm">Finalizar compra</button>
           </div>
           <div class="row mt-2">
             <button class="btn  btn-outline-success shadow" onclick="window.location = 'products.html'">Seguir explorando</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalTitle" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="paymentModalTitle">Forma de pago</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-check payment-method-radio">
+              <input type="radio" class="form-check-input" name="methodRadio" id="creditCardRadio" checked>
+              <label for="creditCardRadio">Tarjeta de credito</label>
+            </div>
+            <fieldset form="cartForm" id="creditCardSet">
+              <div class="row mb-3">
+                <label for="cardNumber" class="form-label">Número de tarjeta</label>
+                <input type="text" class="form-control" id="cardNumber"
+                  minlength="16"
+                  maxlength="16"
+                  pattern="^[0-9]*$"
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  required>
+              </div>
+              <div class="row mb-3">
+                <label for="cvvNumber" class="form-label">Código de seguridad</label>
+                <input type="text" class="form-control" id="cvvNumber"
+                  minlength="3"
+                  maxlength="4"
+                  pattern="^[0-9]*$"
+                  required>
+              </div>
+              <div class="row mb-3">
+                <label for="expiringDate" class="form-label">Vencimiento</label>
+                <input type="text" class="form-control" id="expiringDate"
+                  minlength="5"
+                  maxlength="5"
+                  pattern="[0-9]{2}\/[0-9]{2}"
+                  placeholder="MM/AA"
+                  required>
+              </div>
+            </fieldset>
+            <hr>
+            <div class="form-check payment-method-radio">
+              <input type="radio" class="form-check-input" name="methodRadio" id="bankTransferRadio">
+              <label for="creditCardRadio">Transferencia bancaria</label>
+            </div>
+            <fieldset form="cartForm" id="bankTransferSet" disabled>
+              <div class="row mb-3">
+                <label for="accountNumber" class="form-label">Número de cuenta</label>
+                <input type="text" class="form-control" id="accountNumber"
+                  pattern="[0-9]*"
+                  required>
+              </div>
+            </fieldset>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Terminado</button>
           </div>
         </div>
       </div>
