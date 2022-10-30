@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
       showRelatedProducts(product.relatedProducts);
 
       document.querySelectorAll(".buy-btn").forEach(elem => {
-        elem.addEventListener("click", (event) => {
-          addToCart(product);
+        elem.addEventListener("click", async (event) => {
+          await addToCart(product);
           if (event.target.getAttribute("name") === "buyNow") window.location = "cart.html";
         })
       });
@@ -28,22 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function addToCart(product) {
-  getCart().then(cart => {
-    const prodInCart = cart.find(prod => prod.id === product.id)
+async function addToCart(product) {
+  const cart = await getCart();
+  const prodInCart = cart.find(prod => prod.id === product.id)
 
-    if (prodInCart) prodInCart.count += 1
-    else {
-      const productSubset = (({ id, name, cost, currency, images}) => 
-      ({ id, name, count: 1, unitCost: cost, currency, image: images[0]}))(product);
-      cart.push(productSubset);
-    }
+  if (prodInCart) prodInCart.count += 1
+  else {
+    const productSubset = (({ id, name, cost, currency, images}) => 
+    ({ id, name, count: 1, unitCost: cost, currency, image: images[0]}))(product);
+    cart.push(productSubset);
+  }
 
-    setLocalCart(cart);
+  setLocalCart(cart);
 
-    document.getElementById("toBuyCount").innerHTML = prodInCart ? prodInCart.count : 1;
-    document.getElementById("cartInfo").classList.remove("d-none");
-  })
+  document.getElementById("toBuyCount").innerHTML = prodInCart ? prodInCart.count : 1;
+  document.getElementById("cartInfo").classList.remove("d-none");
 }
 
 function showProduct(product) {
