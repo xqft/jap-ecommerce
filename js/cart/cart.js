@@ -72,7 +72,7 @@ function updateCosts() {
   
   getCart().then(products => {
     costs["subtotal"] = products
-      .map(elem => elem.unitCost * elem.count * (elem.currency !== "USD" ? DOLLAR_TO_PESO : 1))
+      .map(elem => elem.unitCost * elem.count / (elem.currency !== "USD" ? DOLLAR_TO_PESO : 1))
       .reduce((prev, current) => prev + current, 0);
     costs["delivery"] = costs.subtotal * delivery.fraction;
     costs["total"]    = costs.subtotal + costs.delivery;
