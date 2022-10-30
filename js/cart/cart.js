@@ -46,7 +46,7 @@ function genCartList(products) {
     });
     elem.querySelector("input").addEventListener("input", e => {
       elem.querySelector("span.subtotal").innerHTML = unitCost * Math.max(e.target.value, 1);
-      setCartItemCount(id, e.target.value);
+      setCartItemCount(id, Math.max(e.target.value, 1));
       updateCosts();
     });
 
