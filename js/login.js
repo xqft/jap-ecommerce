@@ -1,8 +1,9 @@
 window.addEventListener('DOMContentLoaded', () => {
-  // redirect directly if values are saved:
-  if (sessionStorage.getItem("login-data-loggedin") === "true" ||
-      localStorage.getItem("login-data-loggedin")   === "true") 
-    window.location = "index.html";
+  // redirect if logged in:
+  const loggedIn = [sessionStorage, localStorage]
+    .map(st => st.getItem("login-data-loggedin"))
+    .some(elem => elem === "true");
+  if (loggedIn) window.location = document.referrer;
 
   const loginForm = document.querySelector("#login-form");
   const needsValidationGroup = document.querySelector("#login-form .form-group.needs-validation");
@@ -17,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
       storage.setItem("login-data-loggedin", true);
       localStorage.setItem("login-data-email", login.email);
 
-      window.location = "index.html";
+      window.location = document.referrer;
     }
     else e.stopPropagation();
 
