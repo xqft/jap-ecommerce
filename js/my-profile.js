@@ -12,18 +12,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // set profile picture.
   document.querySelector("#profilePicture").src = localStorage.getItem("profile-picture") ?? "img/img_perfil.png";
   
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     if (form.checkValidity()) {
       const data = new FormData(form);
 
       for (const [key, value] of data.entries())
-        if (value) localStorage.setItem("profile-" + key, value); // if not empty, store.
+        if (value && key !== "picture") localStorage.setItem("profile-" + key, value); 
+        // if not empty, store.
 
       const imgFile = document.querySelector("#pictureInput").files[0];
-      encodeImage(imgFile).then(url => {
+      if (imgFile) {
+        e.preventDefault();
+        const url = await encodeImage(imgFile);
         localStorage.setItem("profile-picture", url);
         document.querySelector("#profilePicture").src = url;
-      });
+      }
     } else {
       e.preventDefault();
       e.stopPropagation();
