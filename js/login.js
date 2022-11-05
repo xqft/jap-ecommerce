@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   // redirect if logged in:
   const loggedIn = [sessionStorage, localStorage]
-    .map(st => st.getItem("login-data-loggedin"))
+    .map(st => st.getItem("profile-loggedin"))
     .some(elem => elem === "true");
   if (loggedIn) window.location = document.referrer;
 
@@ -15,8 +15,8 @@ window.addEventListener('DOMContentLoaded', () => {
     if (isFormValid(login)) {
       const storage = login.rememberme === "on" ? localStorage : sessionStorage
 
-      storage.setItem("login-data-loggedin", true);
-      localStorage.setItem("login-data-email", login.email);
+      storage.setItem("profile-loggedin", true);
+      localStorage.setItem("profile-email", login.email);
 
       window.location = document.referrer;
     }

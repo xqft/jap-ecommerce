@@ -1,5 +1,5 @@
 const loggedIn = [sessionStorage, localStorage]
-  .map(st => st.getItem("login-data-loggedin"))
+  .map(st => st.getItem("profile-loggedin"))
   .some(elem => elem === "true");
 if (!loggedIn) window.location = "login.html";
 
