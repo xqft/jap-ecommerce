@@ -1,5 +1,7 @@
 # e-mercado
-My e-commerce front-end project for the Jovenes a Programar (Plan Ceibal) webdev course. [GitHub Pages link](https://xqft.github.io/jap-ecommerce/)
+My e-commerce front-end project for the Jovenes a Programar (Plan Ceibal) webdev course. [GitHub Pages link](https://xqft.github.io/jap-ecommerce/).
+
+The [main]() branch contains the final front-end of the web, which is deployed in Pages. In the [express]() branch is a pretty simple Express/Node.js backend for serving the e-commerce info in JSON. Note that the fetching URLS of the frontend were not updated for this server.
 
 ## About the project
 **e-mercado** is a generic e-commerce web platform project of which my duty is to build the front-end interface that buyers will be using. e-mercado is built from an initial workspace, progressing step by step through bi-weekly assignments with main objectives to complete. The full project details can be downloaded [here (spanish)](https://xqft.github.io/jap-ecommerce/Letra.pdf).
